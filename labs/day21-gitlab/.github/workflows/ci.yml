@@ -1,12 +1,13 @@
-name: Day 21 Multi-Job Workflow
+name: Day 21 Multi-Language CI Workflow
 
 on:
   push:
-    branches: [ "main" ]   # or "main" if your repo uses main
+    branches: [ "main" ]   # change to "master" if your repo uses master
   pull_request:
     branches: [ "main" ]
 
 jobs:
+  # ---------------- Python Jobs ----------------
   build:
     runs-on: ubuntu-latest
     steps:
@@ -63,3 +64,21 @@ jobs:
 
       - name: Run linter
         run: flake8 .
+
+  # ---------------- Node.js Job ----------------
+  node-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install   # 👈 use npm install here
+
+      - name: Run tests
+        run: npm test
